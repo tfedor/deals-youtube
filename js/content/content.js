@@ -191,6 +191,11 @@ let WatchPage = (function(){
         self._addPricingToPage(`<div class="itad-container">${priceBox}${itadBox}</div>`);
     };
 
+    self._pageListener = function(metaContentsNode) {
+        (new MutationObserver(self._loadPriceInfo))
+            .observe(metaContentsNode, {childList: true, subtree: true});
+    };
+
 
     self.init = async function() {
 
@@ -202,19 +207,22 @@ let WatchPage = (function(){
         ]);
 
         let metaContents = document.querySelector("#meta-contents");
-        let observer = new MutationObserver(() => {
-            self._loadPriceInfo();
-        });
-
-        observer.observe(metaContents, {childList: true, subtree: true});
-
-
+        if (!metaContents) {
+            let metaObserver = new MutationObserver(() => {
+                let metaContents = document.querySelector("#meta-contents");
+                if (!metaContents) { return; }
+                self._pageListener(metaContents);
+                metaObserver.disconnect()
+            });
+            metaObserver.observe(document.body, { childList: true, subtree: true });
+        } else {
+            self._pageListener(metaContents);
+        }
     };
 
     return self;
 })();
 
 
-(function(){
-    WatchPage.init();
-})();
+
+WatchPage.init();

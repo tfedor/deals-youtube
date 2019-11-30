@@ -1,6 +1,6 @@
 {
   "name": "Augmented YouTube",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Augments your YouTube",
   "manifest_version": 2,
   "permissions": [
