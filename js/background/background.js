@@ -1,11 +1,7 @@
 
 class Api {
-    // FF doesn't support static members
-    // static origin; // this *must* be overridden
-    // static params = {};
-    // withResponse? use a boolean to include Response object in result?
     static _fetchWithDefaults(endpoint, query={}, params={}) {
-        let url = new URL(endpoint, this.origin);
+        let url = new URL(endpoint);
         params = Object.assign({}, this.params, params);
         if (params && params.method === 'POST' && !params.body) {
             let formData = new FormData();
@@ -23,7 +19,8 @@ class Api {
     static getEndpoint(endpoint, query) {
         if (!endpoint.endsWith('/'))
             endpoint += '/';
-        return this._fetchWithDefaults(endpoint, query, { 'method': 'GET', }).then(response => response.json());
+        return this._fetchWithDefaults(endpoint, query, { 'method': 'GET', })
+            .then(response => response.json());
     }
 }
 Api.params = {};
@@ -51,8 +48,6 @@ let actionCallbacks = new Map([
         return response.data[plain];
     }]
 ]);
-
-
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (!sender || !sender.tab) { return false; } // not from a tab, ignore

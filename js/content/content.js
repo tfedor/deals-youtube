@@ -19,82 +19,9 @@ class Background {
     }
     
     static action(requested, params) {
-        if (typeof params == 'undefined')
-            return Background._message({ 'action': requested, });
         return Background._message({ 'action': requested, 'params': params, });
     }
 }
-
-
-/**
- * Event handler for uncaught Background errors
- */
-function unhandledrejection(ev) {
-    let err = ev.reason;
-    if (!err || !err.error) return; // Not a background error
-    ev.preventDefault();
-    ev.stopPropagation();
-    console.group("An error occurred in the background context.");
-    console.error(err.localStack);
-    console.error(err.stack);
-    console.groupEnd();
-}
-
-window.addEventListener('unhandledrejection', unhandledrejection);
-
-
-let ExtensionLayer = (function() {
-
-    let self = {};
-
-    // NOTE: use cautiously!
-    // Run script in the context of the current tab
-    self.runInPageContext = function(fun) {
-        let script  = document.createElement("script");
-        script.textContent = '(' + fun + ")();";
-        document.documentElement.appendChild(script);
-        script.parentNode.removeChild(script);
-    };
-
-    return self;
-})();
-
-
-/**
- * NOTE FOR ADDON REVIEWER:
- * This class is meant to simplify communication between extension context and page context.
- * Basically, we have wrapped postMessage API in this class.
- */
-class Messenger {
-    static postMessage(msgID, info) {
-        window.postMessage({
-            type: `es_${msgID}`,
-            information: info
-        }, window.location.origin);
-    }
-
-    // Used for one-time events
-    static onMessage(msgID) {
-        return new Promise(resolve => {
-            let callback = function(e) {
-                if (e.source !== window) { return; }
-                if (!e.data || !e.data.type) { return; }
-                if (e.data.type === `es_${msgID}`) {
-                    resolve(e.data.information);
-                    window.removeEventListener("message", callback);
-                }
-            };
-            window.addEventListener("message", callback);
-        });
-    }
-}
-
-// Inject the Messenger class into the DOM, providing the same interface for the page context side
-(function() {
-    let script = document.createElement("script");
-    script.textContent = Messenger.toString();
-    document.documentElement.appendChild(script);
-})();
 
 
 let WatchPage = (function(){
@@ -131,6 +58,13 @@ let WatchPage = (function(){
         return document.querySelector("#meta-contents #contents");
     };
 
+    self._removePricing = function() {
+        let itadNode = document.querySelector(".itad-container");
+        if (itadNode) {
+            itadNode.remove();
+        }
+    };
+
     self._addPricingToPage = function(html) {
 
         let contentsNode = self._getContentsNode();
@@ -153,6 +87,7 @@ let WatchPage = (function(){
         let gameName = await self._getGameName();
         if (!gameName) {
             console.log("Did not find game name on this page");
+            self._removePricing();
             return;
         }
 
@@ -161,7 +96,8 @@ let WatchPage = (function(){
 
         let prices = await Background.action("prices", {title: gameName});
         if (!prices) {
-            console.error("Couldn't load prices for " + gameName);
+            console.error("Couldn't load prices for " + gameName, prices);
+            self._removePricing();
             return;
         }
 
