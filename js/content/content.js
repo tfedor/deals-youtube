@@ -1,21 +1,7 @@
 
 class Background {
     static async _message(message) {
-
-        return new Promise(function (resolve, reject) {
-            chrome.runtime.sendMessage(message, function(response) {
-                if (!response) {
-                    reject("No response from extension background context.");
-                    return;
-                }
-                if (typeof response.error !== 'undefined') {
-                    response.localStack = (new Error(message.action)).stack;
-                    reject(response);
-                    return;
-                }
-                resolve(response.response);
-            });
-        });
+        return chrome.runtime.sendMessage(message);
     }
     
     static action(requested, params) {
@@ -120,10 +106,7 @@ let WatchPage = (function(){
             "See more"
         );
 
-        let currentContainer = document.querySelector(".itad-container");
-        if (currentContainer) {
-            currentContainer.parentNode.removeChild(currentContainer);
-        }
+        self._removePricing();
         self._addPricingToPage(`<div class="itad-container">${priceBox}${itadBox}</div>`);
     };
 
@@ -158,7 +141,6 @@ let WatchPage = (function(){
 
     return self;
 })();
-
 
 
 WatchPage.init();

@@ -1,28 +1,6 @@
 const Info = {
-    'version': "1.0.0",
+    'version': chrome.runtime.getManifest().version,
 };
-
-/**
- * Shim for Promise.finally() for browsers (Waterfox/FF 56) that don't have it
- * https://github.com/domenic/promises-unwrapping/issues/18#issuecomment-57801572
- */
-if (typeof Promise.prototype.finally === 'undefined') {
-    Object.defineProperty(Promise.prototype, 'finally', {
-        'value': function(callback) {
-            var constructor = this.constructor;
-            return this.then(function(value) {
-                return constructor.resolve(callback()).then(function(){
-                    return value;
-                });
-            }, function(reason) {
-                return constructor.resolve(callback()).then(function(){
-                    console.error(reason);
-                    throw reason;
-                });
-            });
-        },
-    });
-}
 
 
 class ExtensionResources {
@@ -57,65 +35,6 @@ class ExtensionResources {
 
 
 class HTML {
-
-    static escape(str) {
-        // @see https://stackoverflow.com/a/4835406
-        let map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        };
-
-        return str.replace(/[&<>"']/g, function(m) { return map[m]; });
-    }
-
-    static fragment(html) {
-        let template = document.createElement('template');
-        template.innerHTML = DOMPurify.sanitize(html);
-        return template.content;
-    }
-
-    static element(html) {
-        return HTML.fragment(html).firstElementChild;
-    }
-
-    static inner(node, html) {
-        if (typeof node == 'undefined' || node === null) {
-            console.warn(`${node} is not an Element.`);
-            return null;
-        }
-        if (typeof node == "string") {
-            node = document.querySelector(node);
-        }
-        if (!(node instanceof Element)) {
-            console.warn(`${node} is not an Element.`);
-            return null;
-        }
-        
-        node.innerHTML = DOMPurify.sanitize(html);
-        return node;
-    }
-
-    static wrap(node, html) {
-        if (typeof node == 'undefined' || node === null) {
-            console.warn(`${node} is not an Element.`);
-            return null;
-        }
-        if (typeof node == "string") {
-            node = document.querySelector(node);
-        }
-        if (!(node instanceof Element)) {
-            console.warn(`${node} is not an Element.`);
-            return null;
-        }
-
-        let wrapper = HTML.element(html);
-        node.replaceWith(wrapper);
-        wrapper.appendChild(node);
-        return wrapper;
-    }
 
     static adjacent(node, position, html) {
         if (typeof node == 'undefined' || node === null) {
