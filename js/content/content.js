@@ -80,10 +80,11 @@ let WatchPage = (function(){
         if (gameName === _currentGameName) { return; }
         _currentGameName = gameName;
 
+        self._removePricing();
+
         let prices = await Background.action("prices", {title: gameName});
         if (!prices) {
             console.error("Couldn't load prices for " + gameName, prices);
-            self._removePricing();
             return;
         }
 
@@ -106,7 +107,6 @@ let WatchPage = (function(){
             "See more"
         );
 
-        self._removePricing();
         self._addPricingToPage(`<div class="itad-container">${priceBox}${itadBox}</div>`);
     };
 
