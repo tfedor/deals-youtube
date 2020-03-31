@@ -1,11 +1,9 @@
 {
-  "name": "Augmented YouTube",
+  "name": "Game Prices for YouTube",
   "version": "1.0.0",
-  "description": "Augments your YouTube",
+  "description": "Adds pricing info from IsThereAnyDeal to YouTube",
   "manifest_version": 2,
-  "permissions": [
-    "*://*.youtube.com/watch"
-  ],
+  "permissions": [],
   "web_accessible_resources": [
     "img/*.png",
     "img/*.gif",
