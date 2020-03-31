@@ -1,9 +1,22 @@
 
 class Background {
     static async _message(message) {
-        return chrome.runtime.sendMessage(message);
+        return new Promise(function (resolve, reject) {
+            chrome.runtime.sendMessage(message, function(response) {
+                if (!response) {
+                    reject("No response from extension background context.");
+                    return;
+                }
+                if (typeof response.error !== 'undefined') {
+                    response.localStack = (new Error(message.action)).stack;
+                    reject(response);
+                    return;
+                }
+                resolve(response.response);
+            });
+        });
     }
-    
+
     static action(requested, params) {
         return Background._message({ 'action': requested, 'params': params, });
     }
@@ -111,6 +124,7 @@ let WatchPage = (function(){
     };
 
     self._pageListener = function(metaContentsNode) {
+        self._loadPriceInfo();
         (new MutationObserver(self._loadPriceInfo))
             .observe(metaContentsNode, {childList: true, subtree: true});
     };
