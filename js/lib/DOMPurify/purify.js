@@ -4,78 +4,42 @@
 	(global.DOMPurify = factory());
 }(this, (function () { 'use strict';
 
-function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var freeze$1 = Object.freeze || function (x) {
+  return x;
+};
+
+var html = freeze$1(['a', 'abbr', 'acronym', 'address', 'area', 'article', 'aside', 'audio', 'b', 'bdi', 'bdo', 'big', 'blink', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'content', 'data', 'datalist', 'dd', 'decorator', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'element', 'em', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meter', 'nav', 'nobr', 'ol', 'optgroup', 'option', 'output', 'p', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'section', 'select', 'shadow', 'small', 'source', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']);
+
+// SVG
+var svg = freeze$1(['svg', 'a', 'altglyph', 'altglyphdef', 'altglyphitem', 'animatecolor', 'animatemotion', 'animatetransform', 'audio', 'canvas', 'circle', 'clippath', 'defs', 'desc', 'ellipse', 'filter', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line', 'lineargradient', 'marker', 'mask', 'metadata', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialgradient', 'rect', 'stop', 'style', 'switch', 'symbol', 'text', 'textpath', 'title', 'tref', 'tspan', 'video', 'view', 'vkern']);
+
+var svgFilters = freeze$1(['feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feMerge', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence']);
+
+var mathMl = freeze$1(['math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr', 'mmultiscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow', 'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd', 'mtext', 'mtr', 'munder', 'munderover']);
+
+var text = freeze$1(['#text']);
+
+var freeze$2 = Object.freeze || function (x) {
+  return x;
+};
+
+var html$1 = freeze$2(['accept', 'action', 'align', 'alt', 'autocomplete', 'background', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'coords', 'crossorigin', 'datetime', 'default', 'dir', 'disabled', 'download', 'enctype', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'integrity', 'ismap', 'label', 'lang', 'list', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'name', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns']);
+
+var svg$1 = freeze$2(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant', 'specularexponent', 'spreadmethod', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'tabindex', 'targetx', 'targety', 'transform', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
+
+var mathMl$1 = freeze$2(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
+
+var xml = freeze$2(['xlink:href', 'xml:id', 'xlink:title', 'xml:space', 'xmlns:xlink']);
 
 var hasOwnProperty = Object.hasOwnProperty;
 var setPrototypeOf = Object.setPrototypeOf;
-var isFrozen = Object.isFrozen;
-var objectKeys = Object.keys;
-var freeze = Object.freeze;
-var seal = Object.seal; // eslint-disable-line import/no-mutable-exports
 
-var _ref = typeof Reflect !== 'undefined' && Reflect;
-var apply = _ref.apply;
-var construct = _ref.construct;
+var _ref$1 = typeof Reflect !== 'undefined' && Reflect;
+var apply$1 = _ref$1.apply;
 
-if (!apply) {
-  apply = function apply(fun, thisValue, args) {
+if (!apply$1) {
+  apply$1 = function apply(fun, thisValue, args) {
     return fun.apply(thisValue, args);
-  };
-}
-
-if (!freeze) {
-  freeze = function freeze(x) {
-    return x;
-  };
-}
-
-if (!seal) {
-  seal = function seal(x) {
-    return x;
-  };
-}
-
-if (!construct) {
-  construct = function construct(Func, args) {
-    return new (Function.prototype.bind.apply(Func, [null].concat(_toConsumableArray$1(args))))();
-  };
-}
-
-var arrayForEach = unapply(Array.prototype.forEach);
-var arrayIndexOf = unapply(Array.prototype.indexOf);
-var arrayJoin = unapply(Array.prototype.join);
-var arrayPop = unapply(Array.prototype.pop);
-var arrayPush = unapply(Array.prototype.push);
-var arraySlice = unapply(Array.prototype.slice);
-
-var stringToLowerCase = unapply(String.prototype.toLowerCase);
-var stringMatch = unapply(String.prototype.match);
-var stringReplace = unapply(String.prototype.replace);
-var stringIndexOf = unapply(String.prototype.indexOf);
-var stringTrim = unapply(String.prototype.trim);
-
-var regExpTest = unapply(RegExp.prototype.test);
-var regExpCreate = unconstruct(RegExp);
-
-var typeErrorCreate = unconstruct(TypeError);
-
-function unapply(func) {
-  return function (thisArg) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    return apply(func, thisArg, args);
-  };
-}
-
-function unconstruct(func) {
-  return function () {
-    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-
-    return construct(func, args);
   };
 }
 
@@ -92,10 +56,10 @@ function addToSet(set, array) {
   while (l--) {
     var element = array[l];
     if (typeof element === 'string') {
-      var lcElement = stringToLowerCase(element);
+      var lcElement = element.toLowerCase();
       if (lcElement !== element) {
         // Config presets (e.g. tags.js, attrs.js) are immutable.
-        if (!isFrozen(array)) {
+        if (!Object.isFrozen(array)) {
           array[l] = lcElement;
         }
 
@@ -115,7 +79,7 @@ function clone(object) {
 
   var property = void 0;
   for (property in object) {
-    if (apply(hasOwnProperty, object, [property])) {
+    if (apply$1(hasOwnProperty, object, [property])) {
       newObject[property] = object[property];
     }
   }
@@ -123,24 +87,9 @@ function clone(object) {
   return newObject;
 }
 
-var html = freeze(['a', 'abbr', 'acronym', 'address', 'area', 'article', 'aside', 'audio', 'b', 'bdi', 'bdo', 'big', 'blink', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'content', 'data', 'datalist', 'dd', 'decorator', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'element', 'em', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meter', 'nav', 'nobr', 'ol', 'optgroup', 'option', 'output', 'p', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'section', 'select', 'shadow', 'small', 'source', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']);
-
-// SVG
-var svg = freeze(['svg', 'a', 'altglyph', 'altglyphdef', 'altglyphitem', 'animatecolor', 'animatemotion', 'animatetransform', 'audio', 'canvas', 'circle', 'clippath', 'defs', 'desc', 'ellipse', 'filter', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line', 'lineargradient', 'marker', 'mask', 'metadata', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialgradient', 'rect', 'stop', 'style', 'switch', 'symbol', 'text', 'textpath', 'title', 'tref', 'tspan', 'video', 'view', 'vkern']);
-
-var svgFilters = freeze(['feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feMerge', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence']);
-
-var mathMl = freeze(['math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr', 'mmultiscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow', 'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd', 'mtext', 'mtr', 'munder', 'munderover']);
-
-var text = freeze(['#text']);
-
-var html$1 = freeze(['accept', 'action', 'align', 'alt', 'autocomplete', 'background', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'coords', 'crossorigin', 'datetime', 'default', 'dir', 'disabled', 'download', 'enctype', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'integrity', 'ismap', 'label', 'lang', 'list', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'name', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns']);
-
-var svg$1 = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant', 'specularexponent', 'spreadmethod', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'tabindex', 'targetx', 'targety', 'transform', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
-
-var mathMl$1 = freeze(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
-
-var xml = freeze(['xlink:href', 'xml:id', 'xlink:title', 'xml:space', 'xmlns:xlink']);
+var seal = Object.seal || function (x) {
+  return x;
+};
 
 var MUSTACHE_EXPR = seal(/\{\{[\s\S]*|[\s\S]*\}\}/gm); // Specify template detection regex for SAFE_FOR_TEMPLATES mode
 var ERB_EXPR = seal(/<%[\s\S]*|[\s\S]*%>/gm);
@@ -156,9 +105,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var _ref = typeof Reflect !== 'undefined' && Reflect;
+var apply = _ref.apply;
+
+var arraySlice = Array.prototype.slice;
+var freeze = Object.freeze;
+
 var getGlobal = function getGlobal() {
   return typeof window === 'undefined' ? null : window;
 };
+
+if (!apply) {
+  apply = function apply(fun, thisValue, args) {
+    return fun.apply(thisValue, args);
+  };
+}
 
 /**
  * Creates a no-op policy for internal use only.
@@ -210,7 +171,7 @@ function createDOMPurify() {
    * Version label, exposed for easier checks
    * if DOMPurify is up to date or not
    */
-  DOMPurify.version = '2.0.8';
+  DOMPurify.version = '2.0.7';
 
   /**
    * Array of elements that DOMPurify removed during sanitation.
@@ -240,7 +201,7 @@ function createDOMPurify() {
       Text = window.Text,
       Comment = window.Comment,
       DOMParser = window.DOMParser,
-      trustedTypes = window.trustedTypes;
+      TrustedTypes = window.TrustedTypes;
 
   // As per issue #47, the web-components registry is inherited by a
   // new document created via createHTMLDocument. As per the spec
@@ -256,7 +217,7 @@ function createDOMPurify() {
     }
   }
 
-  var trustedTypesPolicy = _createTrustedTypesPolicy(trustedTypes, originalDocument);
+  var trustedTypesPolicy = _createTrustedTypesPolicy(TrustedTypes, originalDocument);
   var emptyHTML = trustedTypesPolicy ? trustedTypesPolicy.createHTML('') : '';
 
   var _document = document,
@@ -417,7 +378,9 @@ function createDOMPurify() {
     SANITIZE_DOM = cfg.SANITIZE_DOM !== false; // Default true
     KEEP_CONTENT = cfg.KEEP_CONTENT !== false; // Default true
     IN_PLACE = cfg.IN_PLACE || false; // Default false
+
     IS_ALLOWED_URI$$1 = cfg.ALLOWED_URI_REGEXP || IS_ALLOWED_URI$$1;
+
     if (SAFE_FOR_TEMPLATES) {
       ALLOW_DATA_ATTR = false;
     }
@@ -506,7 +469,7 @@ function createDOMPurify() {
    * @param  {Node} node a DOM node
    */
   var _forceRemove = function _forceRemove(node) {
-    arrayPush(DOMPurify.removed, { element: node });
+    DOMPurify.removed.push({ element: node });
     try {
       node.parentNode.removeChild(node);
     } catch (error) {
@@ -522,12 +485,12 @@ function createDOMPurify() {
    */
   var _removeAttribute = function _removeAttribute(name, node) {
     try {
-      arrayPush(DOMPurify.removed, {
+      DOMPurify.removed.push({
         attribute: node.getAttributeNode(name),
         from: node
       });
     } catch (error) {
-      arrayPush(DOMPurify.removed, {
+      DOMPurify.removed.push({
         attribute: null,
         from: node
       });
@@ -551,15 +514,17 @@ function createDOMPurify() {
       dirty = '<remove></remove>' + dirty;
     } else {
       /* If FORCE_BODY isn't used, leading whitespace needs to be preserved manually */
-      var matches = stringMatch(dirty, /^[\s]+/);
+      var matches = dirty.match(/^[\s]+/);
       leadingWhitespace = matches && matches[0];
+      if (leadingWhitespace) {
+        dirty = dirty.slice(leadingWhitespace.length);
+      }
     }
 
-    var dirtyPayload = trustedTypesPolicy ? trustedTypesPolicy.createHTML(dirty) : dirty;
     /* Use DOMParser to workaround Firefox bug (see comment below) */
     if (useDOMParser) {
       try {
-        doc = new DOMParser().parseFromString(dirtyPayload, 'text/html');
+        doc = new DOMParser().parseFromString(dirty, 'text/html');
       } catch (error) {}
     }
 
@@ -576,7 +541,7 @@ function createDOMPurify() {
           body = _doc.body;
 
       body.parentNode.removeChild(body.parentNode.firstElementChild);
-      body.outerHTML = dirtyPayload;
+      body.outerHTML = trustedTypesPolicy ? trustedTypesPolicy.createHTML(dirty) : dirty;
     }
 
     if (dirty && leadingWhitespace) {
@@ -609,7 +574,7 @@ function createDOMPurify() {
     (function () {
       try {
         var doc = _initDocument('<x/><title>&lt;/title&gt;&lt;img&gt;');
-        if (regExpTest(/<\/title/, doc.querySelector('title').innerHTML)) {
+        if (/<\/title/.test(doc.querySelector('title').innerHTML)) {
           removeTitle = true;
         }
       } catch (error) {}
@@ -669,7 +634,7 @@ function createDOMPurify() {
       return;
     }
 
-    arrayForEach(hooks[entryPoint], function (hook) {
+    hooks[entryPoint].forEach(function (hook) {
       hook.call(DOMPurify, currentNode, data, CONFIG);
     });
   };
@@ -698,7 +663,7 @@ function createDOMPurify() {
     }
 
     /* Now let's check the element's type and name */
-    var tagName = stringToLowerCase(currentNode.nodeName);
+    var tagName = currentNode.nodeName.toLowerCase();
 
     /* Execute a hook if present */
     _executeHook('uponSanitizeElement', currentNode, {
@@ -727,23 +692,23 @@ function createDOMPurify() {
     }
 
     /* Remove in case a noscript/noembed XSS is suspected */
-    if (tagName === 'noscript' && regExpTest(/<\/noscript/i, currentNode.innerHTML)) {
+    if (tagName === 'noscript' && /<\/noscript/i.test(currentNode.innerHTML)) {
       _forceRemove(currentNode);
       return true;
     }
 
-    if (tagName === 'noembed' && regExpTest(/<\/noembed/i, currentNode.innerHTML)) {
+    if (tagName === 'noembed' && /<\/noembed/i.test(currentNode.innerHTML)) {
       _forceRemove(currentNode);
       return true;
     }
 
     /* Convert markup to cover jQuery behavior */
-    if (SAFE_FOR_JQUERY && !currentNode.firstElementChild && (!currentNode.content || !currentNode.content.firstElementChild) && regExpTest(/</g, currentNode.textContent)) {
-      arrayPush(DOMPurify.removed, { element: currentNode.cloneNode() });
+    if (SAFE_FOR_JQUERY && !currentNode.firstElementChild && (!currentNode.content || !currentNode.content.firstElementChild) && /</g.test(currentNode.textContent)) {
+      DOMPurify.removed.push({ element: currentNode.cloneNode() });
       if (currentNode.innerHTML) {
-        currentNode.innerHTML = stringReplace(currentNode.innerHTML, /</g, '&lt;');
+        currentNode.innerHTML = currentNode.innerHTML.replace(/</g, '&lt;');
       } else {
-        currentNode.innerHTML = stringReplace(currentNode.textContent, /</g, '&lt;');
+        currentNode.innerHTML = currentNode.textContent.replace(/</g, '&lt;');
       }
     }
 
@@ -751,10 +716,10 @@ function createDOMPurify() {
     if (SAFE_FOR_TEMPLATES && currentNode.nodeType === 3) {
       /* Get the element's text content */
       content = currentNode.textContent;
-      content = stringReplace(content, MUSTACHE_EXPR$$1, ' ');
-      content = stringReplace(content, ERB_EXPR$$1, ' ');
+      content = content.replace(MUSTACHE_EXPR$$1, ' ');
+      content = content.replace(ERB_EXPR$$1, ' ');
       if (currentNode.textContent !== content) {
-        arrayPush(DOMPurify.removed, { element: currentNode.cloneNode() });
+        DOMPurify.removed.push({ element: currentNode.cloneNode() });
         currentNode.textContent = content;
       }
     }
@@ -784,9 +749,9 @@ function createDOMPurify() {
         (https://html.spec.whatwg.org/multipage/dom.html#embedding-custom-non-visible-data-with-the-data-*-attributes)
         XML-compatible (https://html.spec.whatwg.org/multipage/infrastructure.html#xml-compatible and http://www.w3.org/TR/xml/#d0e804)
         We don't need to check the value; it's always URI safe. */
-    if (ALLOW_DATA_ATTR && regExpTest(DATA_ATTR$$1, lcName)) {
+    if (ALLOW_DATA_ATTR && DATA_ATTR$$1.test(lcName)) {
       // This attribute is safe
-    } else if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$$1, lcName)) {
+    } else if (ALLOW_ARIA_ATTR && ARIA_ATTR$$1.test(lcName)) {
       // This attribute is safe
       /* Otherwise, check the name is permitted */
     } else if (!ALLOWED_ATTR[lcName] || FORBID_ATTR[lcName]) {
@@ -797,16 +762,16 @@ function createDOMPurify() {
       // This attribute is safe
       /* Check no script, data or unknown possibly unsafe URI
         unless we know URI values are safe for that attribute */
-    } else if (regExpTest(IS_ALLOWED_URI$$1, stringReplace(value, ATTR_WHITESPACE$$1, ''))) {
+    } else if (IS_ALLOWED_URI$$1.test(value.replace(ATTR_WHITESPACE$$1, ''))) {
       // This attribute is safe
       /* Keep image data URIs alive if src/xlink:href is allowed */
       /* Further prevent gadget XSS for dynamically built script tags */
-    } else if ((lcName === 'src' || lcName === 'xlink:href' || lcName === 'href') && lcTag !== 'script' && stringIndexOf(value, 'data:') === 0 && DATA_URI_TAGS[lcTag]) {
+    } else if ((lcName === 'src' || lcName === 'xlink:href' || lcName === 'href') && lcTag !== 'script' && value.indexOf('data:') === 0 && DATA_URI_TAGS[lcTag]) {
       // This attribute is safe
       /* Allow unknown protocols: This provides support for links that
         are handled by protocol handlers which may be unknown ahead of
         time, e.g. fb:, spotify: */
-    } else if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$$1, stringReplace(value, ATTR_WHITESPACE$$1, ''))) {
+    } else if (ALLOW_UNKNOWN_PROTOCOLS && !IS_SCRIPT_OR_DATA$$1.test(value.replace(ATTR_WHITESPACE$$1, ''))) {
       // This attribute is safe
       /* Check for binary attributes */
       // eslint-disable-next-line no-negated-condition
@@ -863,20 +828,15 @@ function createDOMPurify() {
           name = _attr.name,
           namespaceURI = _attr.namespaceURI;
 
-      value = stringTrim(attr.value);
-      lcName = stringToLowerCase(name);
+      value = attr.value.trim();
+      lcName = name.toLowerCase();
 
       /* Execute a hook if present */
       hookEvent.attrName = lcName;
       hookEvent.attrValue = value;
       hookEvent.keepAttr = true;
-      hookEvent.forceKeepAttr = undefined; // Allows developers to see this is a property they can set
       _executeHook('uponSanitizeAttribute', currentNode, hookEvent);
       value = hookEvent.attrValue;
-      /* Did the hooks approve of the attribute? */
-      if (hookEvent.forceKeepAttr) {
-        continue;
-      }
 
       /* Remove attribute */
       // Safari (iOS + Mac), last tested v8.0.5, crashes if you try to
@@ -884,10 +844,10 @@ function createDOMPurify() {
       // attribute at the time.
       if (lcName === 'name' && currentNode.nodeName === 'IMG' && attributes.id) {
         idAttr = attributes.id;
-        attributes = arraySlice(attributes, []);
+        attributes = apply(arraySlice, attributes, []);
         _removeAttribute('id', currentNode);
         _removeAttribute(name, currentNode);
-        if (arrayIndexOf(attributes, idAttr) > l) {
+        if (attributes.indexOf(idAttr) > l) {
           currentNode.setAttribute('id', idAttr.value);
         }
       } else if (
@@ -911,22 +871,16 @@ function createDOMPurify() {
         continue;
       }
 
-      /* Work around a security issue in jQuery 3.0 */
-      if (SAFE_FOR_JQUERY && regExpTest(/\/>/i, value)) {
-        _removeAttribute(name, currentNode);
-        continue;
-      }
-
       /* Take care of an mXSS pattern using namespace switches */
-      if (regExpTest(/svg|math/i, currentNode.namespaceURI) && regExpTest(regExpCreate('</(' + arrayJoin(objectKeys(FORBID_CONTENTS), '|') + ')', 'i'), value)) {
+      if (/svg|math/i.test(currentNode.namespaceURI) && new RegExp('</(' + Object.keys(FORBID_CONTENTS).join('|') + ')', 'i').test(value)) {
         _removeAttribute(name, currentNode);
         continue;
       }
 
       /* Sanitize attribute content to be template-safe */
       if (SAFE_FOR_TEMPLATES) {
-        value = stringReplace(value, MUSTACHE_EXPR$$1, ' ');
-        value = stringReplace(value, ERB_EXPR$$1, ' ');
+        value = value.replace(MUSTACHE_EXPR$$1, ' ');
+        value = value.replace(ERB_EXPR$$1, ' ');
       }
 
       /* Is `value` valid for this attribute? */
@@ -944,7 +898,7 @@ function createDOMPurify() {
           currentNode.setAttribute(name, value);
         }
 
-        arrayPop(DOMPurify.removed);
+        DOMPurify.removed.pop();
       } catch (error) {}
     }
 
@@ -1011,11 +965,11 @@ function createDOMPurify() {
     if (typeof dirty !== 'string' && !_isNode(dirty)) {
       // eslint-disable-next-line no-negated-condition
       if (typeof dirty.toString !== 'function') {
-        throw typeErrorCreate('toString is not a function');
+        throw new TypeError('toString is not a function');
       } else {
         dirty = dirty.toString();
         if (typeof dirty !== 'string') {
-          throw typeErrorCreate('dirty is not a string, aborting');
+          throw new TypeError('dirty is not a string, aborting');
         }
       }
     }
@@ -1042,11 +996,6 @@ function createDOMPurify() {
 
     /* Clean up removed elements */
     DOMPurify.removed = [];
-
-    /* Check if dirty is correctly typed for IN_PLACE */
-    if (typeof dirty === 'string') {
-      IN_PLACE = false;
-    }
 
     if (IN_PLACE) {
       /* No special handling necessary for in-place sanitization */
@@ -1146,8 +1095,8 @@ function createDOMPurify() {
 
     /* Sanitize final string template-safe */
     if (SAFE_FOR_TEMPLATES) {
-      serializedHTML = stringReplace(serializedHTML, MUSTACHE_EXPR$$1, ' ');
-      serializedHTML = stringReplace(serializedHTML, ERB_EXPR$$1, ' ');
+      serializedHTML = serializedHTML.replace(MUSTACHE_EXPR$$1, ' ');
+      serializedHTML = serializedHTML.replace(ERB_EXPR$$1, ' ');
     }
 
     return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? trustedTypesPolicy.createHTML(serializedHTML) : serializedHTML;
@@ -1190,8 +1139,8 @@ function createDOMPurify() {
       _parseConfig({});
     }
 
-    var lcTag = stringToLowerCase(tag);
-    var lcName = stringToLowerCase(attr);
+    var lcTag = tag.toLowerCase();
+    var lcName = attr.toLowerCase();
     return _isValidAttribute(lcTag, lcName, value);
   };
 
@@ -1208,7 +1157,7 @@ function createDOMPurify() {
     }
 
     hooks[entryPoint] = hooks[entryPoint] || [];
-    arrayPush(hooks[entryPoint], hookFunction);
+    hooks[entryPoint].push(hookFunction);
   };
 
   /**
@@ -1220,7 +1169,7 @@ function createDOMPurify() {
    */
   DOMPurify.removeHook = function (entryPoint) {
     if (hooks[entryPoint]) {
-      arrayPop(hooks[entryPoint]);
+      hooks[entryPoint].pop();
     }
   };
 
