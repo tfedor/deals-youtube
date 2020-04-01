@@ -97,7 +97,17 @@ let WatchPage = (function(){
 
         let prices = await Background.action("prices", {title: gameName});
         if (!prices) {
-            console.error("Couldn't load prices for " + gameName, prices);
+            console.log("Couldn't load prices for " + gameName);
+
+            let searchBox = self._createItadBox(
+                "https://isthereanydeal.com/#/filter:&search/" + encodeURIComponent(gameName),
+                "IsThereAnyDeal",
+                "",
+                "Search"
+            );
+
+            self._addPricingToPage(`<div class="itad-container">${searchBox}</div>`);
+
             return;
         }
 
