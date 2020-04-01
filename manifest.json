@@ -1,18 +1,18 @@
 {
-  "name": "Game Prices for YouTube",
+  "name": "Game Deals for YouTube",
   "version": "1.0.0",
-  "description": "Adds pricing info from IsThereAnyDeal to YouTube",
+  "description": "Add deals info from IsThereAnyDeal to YouTube",
+  "icons": {
+    "128": "img/icon128.png"
+  },
   "manifest_version": 2,
   "permissions": [],
   "web_accessible_resources": [
     "img/*.png",
-    "img/*.gif",
-    "img/*.jpg",
     "img/*.svg",
-    "css/*.css",
-    "img/*/*.png"
+    "css/*.css"
   ],
-  "homepage_url": "https://isthereanydeal.com/",
+  "homepage_url": "https://github.com/tfedor/deals-youtube",
   "content_scripts": [
     {
       "matches": [
