@@ -30,7 +30,7 @@ let WatchPage = (function(){
     let _currentGameName = null;
 
     self._getGameName = async function() {
-        let titleNode = document.querySelector("#meta-contents #title");
+        let titleNode = document.querySelector("#meta-contents #text-container #title");
         if (!titleNode) { return false; }
         return titleNode.innerText;
     };
@@ -102,7 +102,7 @@ let WatchPage = (function(){
             let searchBox = self._createItadBox(
                 "https://isthereanydeal.com/#/filter:&search/" + encodeURIComponent(gameName),
                 "IsThereAnyDeal",
-                "",
+                gameName,
                 "Search"
             );
 
