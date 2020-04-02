@@ -7,7 +7,7 @@
   display: flex;
   flex-basis: 50%;
   flex-grow: 1;
-  background: #f1f1f1;
+  background: var(--yt-spec-general-background-b);
   height: 100px;
   align-items: center;
   text-decoration: none;
