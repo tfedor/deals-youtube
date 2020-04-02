@@ -143,7 +143,7 @@ let WatchPage = (function(){
     self.init = async function() {
 
         console.log.apply(console, [
-            "%c Game Deals for %cYouTube v" + Info.version + " %c by https://isthereanydeal.com/",
+            "%c Game Deals for %cYouTube %c v" + Info.version + " by https://isthereanydeal.com/",
             "background: #000000;color:#ffffff",
             "background: #000000;color:#ff0000",
             "",
