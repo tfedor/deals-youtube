@@ -1,6 +1,6 @@
 {
   "name": "Game Deals for YouTube",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Add deals info from IsThereAnyDeal to YouTube",
   "icons": {
     "128": "img/icon128.png"
