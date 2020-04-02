@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.youtube.com/watch*"
+        "*://*.youtube.com/*"
       ],
       "js": [
         "js/lib/DOMPurify/purify.js",
